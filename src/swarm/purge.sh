@@ -1,22 +1,16 @@
 #!/bin/bash
 
-re='^[0-9]+$'
+EI=$(/sbin/ifconfig eth0 | grep inet | awk '{ print $2}') # Get inet IP of eth0
+SCAN=$(nmap $EI/24 | grep dindood)
+IPS=($(echo "$SCAN" | awk '{ print $6}' | sed 's/.$//; s/^.//')) # Look for the nodes Ip addresses
+NAMES=($(echo "$SCAN" | awk '{ print $5}' | cut -f1 -d"."))      # Look for the nodes Containers names
 
-while
-    echo 'select the same number of nodes u used to join for swarm?'
-    read nodes
-do
+echo "host IP= $EI"
+docker swarm leave -f
 
-    if ! [[ $nodes =~ $re ]]; then
-        echo "error: Not a number" >&2
-        exit 1
-    else
-        for i in $(seq $nodes); do
-            ip=$(ping -c1 dindood_cluster_agent_$i | sed -nE 's/^PING[^(]+\(([^)]+)\).*/\1/p')
-            echo "dindood_cluster_agent_$i | $ip"
-            sshpass -p root ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@$ip docker swarm leave -f
-        done
-        docker swarm leave -f
-        break
-    fi
+for i in "${!IPS[@]}"; do #loop through IP addresses found
+
+    echo "Hostname= ${NAMES[$i]} | IP= ${IPS[$i]}"
+    sshpass -p root ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@${IPS[$i]} docker swarm leave -f
+
 done

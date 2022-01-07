@@ -30,7 +30,7 @@ docker-compose -p dindood_cluster up -d --scale agent=2 --build
 ```
 Now that you have your cluster up you can rescale the number of agents by running the same command with `--no-recreate` flag that will avoid recreating old containers (nodes):
 ```sh
-docker-compose -p dindood_cluster up -d --scale agent=4 --build --no-recreate
+docker-compose -p dindood_cluster up -d --scale agent=4 --no-recreate
 ```
 Once you are done with the cluster you can stop it by running:
 ```sh

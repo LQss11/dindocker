@@ -7,7 +7,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 # Install initials
 RUN \
   apt-get update && \
-  apt-get install -y sudo curl wget vim net-tools openssh-server inetutils-ping sshpass software-properties-common
+  apt-get install -y sudo nmap curl wget vim net-tools openssh-server inetutils-ping sshpass software-properties-common
 
 # install docker-compose
 RUN \

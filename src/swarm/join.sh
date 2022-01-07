@@ -1,25 +1,19 @@
 #!/bin/bash
 
-re='^[0-9]+$'
+EI=$(/sbin/ifconfig eth0 | grep inet | awk '{ print $2}') # Get inet IP of eth0
+SCAN=$(nmap $EI/24 | grep dindood)
+IPS=($(echo "$SCAN" | awk '{ print $6}' | sed 's/.$//; s/^.//')) # Look for the nodes Ip addresses
+NAMES=($(echo "$SCAN" | awk '{ print $5}' | cut -f1 -d"."))      # Look for the nodes Containers names
 
-while
-    echo 'how many nodes you want to join to the swarm?'
-    read nodes
-do
+echo "host IP= $EI"
 
-    if ! [[ $nodes =~ $re ]]; then
-        echo "error: Not a number" >&2
-        exit 1
-    else
-        docker swarm init                                             # Create a docker swarm
-        WORKER_TOKEN=$(docker swarm join-token worker | grep token)   # get full worker token
-        MANAGER_TOKEN=$(docker swarm join-token manager | grep token) # get full manager token
-        for i in $(seq $nodes); do
-            ip=$(ping -c1 dindood_cluster_agent_$i | sed -nE 's/^PING[^(]+\(([^)]+)\).*/\1/p')
-            echo "dindood_cluster_agent_$i | $ip"
+docker swarm init                                             # Create a docker swarm
+WORKER_TOKEN=$(docker swarm join-token worker | grep token)   # get full worker token
+MANAGER_TOKEN=$(docker swarm join-token manager | grep token) # get full manager token
 
-            sshpass -p root ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@$ip $WORKER_TOKEN
-        done
-        break
-    fi
+for i in "${!IPS[@]}"; do #loop through IP addresses found
+
+    echo "Hostname= ${NAMES[$i]} | IP= ${IPS[$i]}"
+    sshpass -p root ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@${IPS[$i]} $WORKER_TOKEN
+
 done

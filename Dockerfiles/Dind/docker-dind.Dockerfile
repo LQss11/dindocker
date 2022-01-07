@@ -4,7 +4,7 @@ FROM docker:dind
 # Install initials
 RUN \
   apk update && \
-  apk add curl wget net-tools iputils sshpass bash
+  apk add curl wget nmap net-tools iputils sshpass bash
 
 # Setup SSH Service
 RUN \
