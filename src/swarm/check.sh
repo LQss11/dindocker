@@ -31,14 +31,14 @@ create_swarm() {
 
 join_machines() {
     WORKER_TOKEN=$(docker swarm join-token worker | grep token)   # get full worker token
-    MANAGER_TOKEN=$(docker swarm join-token manager | grep token) # get full worker token
+    MANAGER_TOKEN=$(docker swarm join-token manager | grep token) # get full manager token
 
     #echo "Please Enter the IP address and the user of the machine"
     while read -p "Would you like to join a machine (y)es/(n)o" answer; do
 
         if [[ $answer == y ]]; then
             # List containers IP addresses (machines)
-            docker ps -q | xargs -n 1 docker inspect --format '{{ .Name }} {{range .NetworkSettings.Networks}} {{.IPAddress}}{{end}}' | grep worker | sed 's#^/##'
+            docker ps -q | xargs -n 1 docker inspect --format '{{ .Name }} {{range .NetworkSettings.Networks}} {{.IPAddress}}{{end}}' | grep agent | sed 's#^/##'
             echo "Enter the IP address?"
             read machine_ip
             echo "Enter the machine User?"

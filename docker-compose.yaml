@@ -1,11 +1,26 @@
 version: '3.8'
+
+networks:
+  net:
+    driver: bridge
+
+volumes:
+  docker-storage:
+
+# Compose extension-field for a images volume reference 
+x-services-volume:
+  &images-volume
+    type: volume
+    source: docker-storage
+    target: /var/lib/docker/image
+
+
 services:
   # DooD Container Configuration
   controller:
-    container_name: controller
     hostname: controller
     build:
-      context: ./Dockerfiles/Dood/
+      context: ./Dockerfiles/Dood
       dockerfile: ${DOOD_DOCKERFILE_NAME}
     restart: always
     volumes:
@@ -15,21 +30,32 @@ services:
     tty: true
     networks:
       - net   
+
+  # This is a controller as DinD
+  # Use this controller to avoid
+  # having issues when using swarm mode
+  # controller2:
+  #   hostname: controller
+  #   build:
+  #     context: ./Dockerfiles/Dind
+  #     dockerfile: ${DOOD_DOCKERFILE_NAME}
+  #   restart: always
+  #   volumes:
+  #     - './src:/src'    
+  #   tty: true
+  #   networks:
+  #     - net   
+
   # DooD Container Configuration
   agent:
     build:
-      context: ./Dockerfiles/Dood/
+      context: ./Dockerfiles/Dind
       dockerfile: ${DIND_DOCKERFILE_NAME}
     restart: always
     volumes:
       - './src:/src'
-      - docker-storage:/var/lib/docker   # Persist docker data inside docker volume
+      - *images-volume  # Persist docker images data inside a docker volume to persist over all agents
     privileged: true    
     tty: true
     networks:
-      - net            
-networks:
-  net:
-    driver: bridge
-volumes:
-  docker-storage:
+      - net          

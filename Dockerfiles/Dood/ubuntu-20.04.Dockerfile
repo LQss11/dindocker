@@ -17,9 +17,6 @@ RUN \
 # Set environment variables.
 ENV HOME /root
 
-# COPY required files.
-COPY /src /src
-
 # Define working directory.
 WORKDIR /src
 
