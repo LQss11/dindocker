@@ -1,0 +1,11 @@
+ansible-playbook -i 192.168.96.2, -u ansible -k -e ansible_network_os=vyos.vyos.vyos first_playbook.yml
+
+apt install software-properties-common
+apt-add-repository --yes --update ppa:ansible/ansible
+apt install ansible
+
+
+ansible all -i tests -m ping
+
+
+ansible-playbook  -i hosts second-playbook.yml --check

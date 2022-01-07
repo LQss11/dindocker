@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  # DooD Container Configuration
+  controller:
+    container_name: controller
+    hostname: controller
+    build:
+      context: ./Dockerfiles/Dood/
+      dockerfile: ${DOOD_DOCKERFILE_NAME}
+    restart: always
+    volumes:
+      - './src:/src'
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker    
+    tty: true
+    networks:
+      - net   
+  # DooD Container Configuration
+  agent:
+    build:
+      context: ./Dockerfiles/Dood/
+      dockerfile: ${DIND_DOCKERFILE_NAME}
+    restart: always
+    volumes:
+      - './src:/src'
+      - docker-storage:/var/lib/docker   # Persist docker data inside docker volume
+    privileged: true    
+    tty: true
+    networks:
+      - net            
+networks:
+  net:
+    driver: bridge
+volumes:
+  docker-storage:
