@@ -17,34 +17,38 @@ x-services-volume:
 
 services:
   # DooD Container Configuration
-  controller:
-    hostname: controller
-    build:
-      context: ./Dockerfiles/Dood
-      dockerfile: ${DOOD_DOCKERFILE_NAME}
-    restart: always
-    volumes:
-      - './src:/src'
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /usr/bin/docker:/usr/bin/docker    
-    tty: true
-    networks:
-      - net   
+  # controller:
+  #   hostname: controller
+  #   build:
+  #     context: ./Dockerfiles/Dood
+  #     dockerfile: ${DOOD_DOCKERFILE_NAME}
+  #   image: dindood_cluster_controller
+  #   restart: always
+  #   volumes:
+  #     - './src:/src'
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #     - /usr/bin/docker:/usr/bin/docker    
+  #   tty: true
+  #   networks:
+  #     - net   
 
   # This is a controller as DinD
   # Use this controller to avoid
   # having issues when using swarm mode
-  # controller2:
-  #   hostname: controller
-  #   build:
-  #     context: ./Dockerfiles/Dind
-  #     dockerfile: ${DOOD_DOCKERFILE_NAME}
-  #   restart: always
-  #   volumes:
-  #     - './src:/src'    
-  #   tty: true
-  #   networks:
-  #     - net   
+  controller:
+    build:
+      context: ./Dockerfiles/Dind
+      dockerfile: ${DIND_DOCKERFILE_NAME}
+    image: dindood_cluster_agent
+    restart: always
+    volumes:
+      - './src:/src'
+      - *images-volume  # Persist docker images data inside a docker volume to persist over all agents
+    privileged: true    
+    working_dir: /src
+    tty: true
+    networks:
+      - net    
 
   # DooD Container Configuration
   agent:

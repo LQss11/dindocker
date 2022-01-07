@@ -1,10 +1,22 @@
 #!/bin/bash
 
-# Get list of Ip adresses of all machines created from compose.
-IPS=$(docker ps -q | xargs -n 1 docker inspect --format '{{ .Name }} {{range .NetworkSettings.Networks}} {{.IPAddress}}{{end}}' | grep cluster | cut -d' ' -f2-)
+re='^[0-9]+$'
 
-for ip in $IPS; do
-    echo "$ip"
-    # leave swarm if already in one
-    sshpass -p root ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@$ip docker swarm leave -f
+while
+    echo 'select the same number of nodes u used to join for swarm?'
+    read nodes
+do
+
+    if ! [[ $nodes =~ $re ]]; then
+        echo "error: Not a number" >&2
+        exit 1
+    else
+        for i in $(seq $nodes); do
+            ip=$(ping -c1 dindood_cluster_agent_$i | sed -nE 's/^PING[^(]+\(([^)]+)\).*/\1/p')
+            echo "dindood_cluster_agent_$i | $ip"
+            sshpass -p root ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@$ip docker swarm leave -f
+        done
+        docker swarm leave -f
+        break
+    fi
 done
