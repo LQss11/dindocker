@@ -17,7 +17,7 @@ x-services-volume:
 
 services:
   # DooD Container Configuration
-  # controller:
+  # dood_controller:
   #   hostname: controller
   #   build:
   #     context: ./Dockerfiles/Dood
@@ -39,7 +39,7 @@ services:
     build:
       context: ./Dockerfiles/Dind
       dockerfile: ${DIND_DOCKERFILE_NAME}
-    image: dindood_cluster_agent
+    image: dindocker_cluster_agent
     restart: always
     volumes:
       - './src:/src'
@@ -50,7 +50,7 @@ services:
     networks:
       - net    
 
-  # DooD Container Configuration
+  # DinD Container Configuration
   agent:
     build:
       context: ./Dockerfiles/Dind

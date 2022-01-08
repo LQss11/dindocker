@@ -1,7 +1,7 @@
 #!/bin/bash
 
 EI=$(/sbin/ifconfig eth0 | grep inet | awk '{ print $2}') # Get inet IP of eth0
-SCAN=$(nmap $EI/24 | grep dindood)
+SCAN=$(nmap $EI/24 | grep dindocker)
 IPS=($(echo "$SCAN" | awk '{ print $6}' | sed 's/.$//; s/^.//')) # Look for the nodes Ip addresses
 NAMES=($(echo "$SCAN" | awk '{ print $5}' | cut -f1 -d"."))      # Look for the nodes Containers names
 

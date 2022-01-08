@@ -1,5 +1,5 @@
-# dindood
-`DinDooD` is a repository that helps you play around with a cluster of nodes as docker containers.
+# dindocker
+`DinDocker` helps you play around with a cluster of nodes as docker containers.
 ## Working environment  
 In order to help you understand the working environment you will first need to learn the difference between **dind** and **dood**:
 - `DinD` includes a whole **Docker installation inside** of it.
@@ -9,7 +9,7 @@ You can see that we have only one DooD Container and at the same time we could h
 
 **Environment template**  
 <p align="center">
-  <img src="https://raw.githubusercontent.com/LQss11/dindood/master/env.png" title="environment ">
+  <img src="https://raw.githubusercontent.com/LQss11/dindocker/master/env.png" title="environment ">
 </p> 
 
 ### DinD Configuration
@@ -26,14 +26,14 @@ The configuration is basically the same except that we don't need to install doc
 ## Quick Start
 In order to create your cluster with one **controller (DooD)** and multiple **agents (DinD)** as you can specify the number of agents you need, you can run:
 ```sh
-docker-compose -p dindood_cluster up -d --scale agent=2 --build
+docker-compose -p dindocker_cluster up -d --scale agent=2 --build
 ```
 Now that you have your cluster up you can rescale the number of agents by running the same command with `--no-recreate` flag that will avoid recreating old containers (nodes):
 ```sh
-docker-compose -p dindood_cluster up -d --scale agent=4 --no-recreate
+docker-compose -p dindocker_cluster up -d --scale agent=4 --no-recreate
 ```
 Once you are done with the cluster you can stop it by running:
 ```sh
-docker-compose -p dindood_cluster down
+docker-compose -p dindocker_cluster down
 ```
 

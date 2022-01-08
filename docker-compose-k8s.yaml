@@ -1,0 +1,37 @@
+version: '3.8'
+
+networks:
+  net:
+    driver: bridge
+volumes:
+  controller-images:
+services:
+  controller:
+    build:
+      context: ./Dockerfiles/Dind/Kubernetes
+      dockerfile: ${DIND_DOCKERFILE_NAME}
+    image: dindocker_k8s_cluster_agent
+    restart: always
+    volumes:
+      - './src:/src'   
+      - 'controller-images:/var/lib/docker/image'
+    privileged: true    
+    working_dir: /src
+    tty: true
+    networks:
+      - net    
+
+
+  # DinD Container Configuration
+  agent:
+    build:
+      context: ./Dockerfiles/Dind
+      dockerfile: ${DIND_DOCKERFILE_NAME}
+    image: dindocker_cluster_agent
+    restart: always
+    volumes:
+      - './src:/src'
+    privileged: true    
+    tty: true
+    networks:
+      - net     
