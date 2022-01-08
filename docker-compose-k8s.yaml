@@ -5,6 +5,7 @@ networks:
     driver: bridge
 volumes:
   controller-images:
+  controller-docker:
 services:
   controller:
     build:
@@ -14,8 +15,11 @@ services:
     restart: always
     volumes:
       - './src:/src'   
-      - 'controller-images:/var/lib/docker/image'
+      #- 'controller-images:/var/lib/docker/image'
+      - 'controller-docker:/var/lib/docker'
     privileged: true    
+    ports:
+      - "30080-30081:80-81" # Specify port mapping range to map on the later from dind
     working_dir: /src
     tty: true
     networks:
@@ -31,6 +35,8 @@ services:
     restart: always
     volumes:
       - './src:/src'
+    ports:
+      - "80-81"
     privileged: true    
     tty: true
     networks:

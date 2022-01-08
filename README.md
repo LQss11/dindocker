@@ -36,4 +36,3 @@ Once you are done with the cluster you can stop it by running:
 ```sh
 docker-compose -p dindocker_cluster down
 ```
-
