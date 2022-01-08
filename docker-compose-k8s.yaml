@@ -19,7 +19,7 @@ services:
       - 'controller-docker:/var/lib/docker'
     privileged: true    
     ports:
-      - "30080-30081:80-81" # Specify port mapping range to map on the later from dind
+      - "30080-30090:80-90" # Specify port mapping range to map on the later from dind
     working_dir: /src
     tty: true
     networks:
@@ -36,7 +36,7 @@ services:
     volumes:
       - './src:/src'
     ports:
-      - "80-81"
+      - "80-90"
     privileged: true    
     tty: true
     networks:
