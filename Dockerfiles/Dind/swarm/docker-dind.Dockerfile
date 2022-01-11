@@ -22,7 +22,7 @@ RUN \
 EXPOSE 22
 
 # Define working directory.
-WORKDIR /src
+WORKDIR /src/swarm
 
 # Updating root password
 RUN echo 'root:root' | chpasswd

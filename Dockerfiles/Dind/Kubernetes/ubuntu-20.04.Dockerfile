@@ -1,8 +1,18 @@
+# This Dockerfile will:
+# Setup and Start (Docker | SSH) services
+# Setup minikube and kubectl (Kubernetes)
+# Update root user password to root
+# Create new user to start minikube
+
 # Pull base image.
 FROM ubuntu:20.04
 
 # Avoid on build interaction "noninteractive"
 ARG DEBIAN_FRONTEND=noninteractive
+
+# Set User that will start minikube
+ARG USERNAME="lqss"
+
 # Install initials
 RUN \
   apt-get update && \
@@ -42,7 +52,7 @@ USER root
 ENV HOME /root
 
 # Define working directory.
-WORKDIR /src
+WORKDIR /src/kubernetes
 
 # Expose port for ssh
 EXPOSE 22
@@ -55,9 +65,9 @@ RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/
 
 # Create new user for minikube start
 RUN \
-useradd -ms /bin/bash lqss && \
-usermod -aG docker lqss && \
-echo "lqss ALL=(ALL:ALL) ALL" >>/etc/sudoers
+useradd -ms /bin/bash ${USERNAME} && \
+usermod -aG docker ${USERNAME} && \
+echo "${USERNAME} ALL=(ALL:ALL) ALL" >>/etc/sudoers
 
 
 # Start SSH  service then use bash

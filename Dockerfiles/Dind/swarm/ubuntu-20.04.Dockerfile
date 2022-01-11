@@ -1,5 +1,5 @@
 # This Dockerfile will:
-# Setup and Start (SSH | Docker) services
+# Setup and Start (Docker | SSH) services
 # Update root user password to root
 
 # Pull base image.
@@ -33,7 +33,7 @@ RUN \
 ENV HOME /root
 
 # Define working directory.
-WORKDIR /src
+WORKDIR /src/swarm
 
 # Expose port for ssh
 EXPOSE 22
@@ -44,6 +44,6 @@ RUN echo 'root:root' | chpasswd
 # Allowing root login with ssh
 RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
-# Start SSH  service then use bash
+# Start SSH and Docker services then use bash
 # Define default command.
 CMD ["sh" , "-c", "service ssh restart && service docker start && bash"]

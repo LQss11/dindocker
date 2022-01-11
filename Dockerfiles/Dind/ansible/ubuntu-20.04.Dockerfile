@@ -1,5 +1,5 @@
 # This Dockerfile will:
-# Setup and Start (SSH | Docker) services
+# Setup and Start (Docker | SSH | Ansible) services
 # Update root user password to root
 
 # Pull base image.
@@ -21,8 +21,11 @@ RUN \
   add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable" &&\
   apt-cache policy docker-ce &&\
   apt-get install -y docker-ce
-  
 
+# Setup Ansible
+RUN \
+  apt-add-repository --yes --update ppa:ansible/ansible &&\
+  apt install -y ansible  
 
 # install docker-compose
 RUN \
@@ -33,7 +36,7 @@ RUN \
 ENV HOME /root
 
 # Define working directory.
-WORKDIR /src
+WORKDIR /src/ansible
 
 # Expose port for ssh
 EXPOSE 22

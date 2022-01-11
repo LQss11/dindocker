@@ -36,3 +36,28 @@ Once you are done with the cluster you can stop it by running:
 ```sh
 docker-compose -p dindocker_cluster down
 ```
+### Expose ports
+In order to work with containers inside containers and get their output on your web browser for example you will need first to expose some ports, let's say for example you are using `nginx` container where it exposes port **80** so first in the dind configuration in the docker file you can map ports or just specify a range of maps like this:
+```yaml
+    ports:
+      - "30080-30099:80-99" 
+```
+OR dynamic mapping:
+```yaml
+    ports:
+      - "80-99" 
+```
+This will help you get ports mapped one by one if you are willing to work with multiple applications inside the Dind containers
+>If you need to expose more ports from a container you can add `expose ` followed by the ports you want your container to expose so then you could map them later.
+#### Set Up Portainer
+Now that you once all your environment is running and you are willing to manage docker env easily from your web browser make sure to:
+- have enough ports to map from the container inside the container in this example we have these ports host machine docker engine available
+```yaml
+    ports:
+      - "30080-30081:80-81" # on host machine 30080 30081 is listening to the port 80 and 81 from container
+```
+- Get inside the dind container (eg controller as dind), then run these commands to create portainer volume then run container and attach its ports to your host machine:
+```sh
+docker exec -it dindocker_cluster_controller_1 sh -c "docker volume create portainer_data && docker run -d -p 80:8000 -p 81:9000 --name=portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce"
+```
+  - dind will pull portainer image then run container and map ports as mentioned and now you can manage Dind from your host machine: localhost:30081

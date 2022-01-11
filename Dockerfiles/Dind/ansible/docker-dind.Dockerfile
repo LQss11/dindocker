@@ -1,5 +1,5 @@
 # This Dockerfile will:
-# Setup and Start (SSH) service
+# Setup and Start (SSH | Ansible) services
 # Update root user password to root
 
 # Pull base image.
@@ -16,13 +16,16 @@ RUN \
     apk add openrc --no-cache && \
     rc-update add sshd && \
     rc-status && \
-    touch /run/openrc/softlevel 
+    touch /run/openrc/softlevel
+
+# Setup Ansible
+RUN apk add ansible 
+
+# Define working directory.
+WORKDIR /src/ansible
 
 # Expose port for ssh
 EXPOSE 22
-
-# Define working directory.
-WORKDIR /src
 
 # Updating root password
 RUN echo 'root:root' | chpasswd
