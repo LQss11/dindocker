@@ -70,8 +70,6 @@ usermod -aG docker ${USERNAME} && \
 echo "${USERNAME} ALL=(ALL:ALL) ALL" >>/etc/sudoers
 
 
-# Start SSH  service then use bash
-# Define default command.
-# sh" , "-c", "service ssh restart && service docker start && bash && 
+# restart system with systemd as PID=1
 CMD ["/sbin/init"]
 

@@ -32,7 +32,7 @@ Now that you have your cluster up you can rescale the number of agents by runnin
 ```sh
 docker-compose -p dindocker_cluster up -d --scale agent=4 --no-recreate
 ```
-Once you are done with the cluster you can stop it by running:
+Once you are done with the cluster make sure to stop it by running:
 ```sh
 docker-compose -p dindocker_cluster down
 ```
@@ -61,3 +61,8 @@ Now that you once all your environment is running and you are willing to manage 
 docker exec -it dindocker_cluster_controller_1 sh -c "docker volume create portainer_data && docker run -d -p 80:8000 -p 81:9000 --name=portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce"
 ```
   - dind will pull portainer image then run container and map ports as mentioned and now you can manage Dind from your host machine: localhost:30081
+## Dotenv (.env)
+| Variables | Values | Impact |
+| ------ | ------ | ------ |
+| DOCKERFILE | **ubuntu-20.04** or **docker-dind**  | choose dockerfile name. (will use docker image as same value selected) |
+| DIND_SERVICES | **ansible** or **kubernetes** or **swarm** | choose service name. (will install service on container with specified value)|
