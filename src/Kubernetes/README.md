@@ -32,8 +32,8 @@ http://127.0.0.1:30080/api/v1/namespaces/kubernetes-dashboard/services/http:kube
 ```sh
 su - ${USERNAME} &&\
 sudo chown -R ${USERNAME} /home/${USERNAME}/.minikube; chmod -R u+wrx /home/${USERNAME}/.minikube &&\
-minikube delete
-minikube start
+minikube delete &&\
+minikube start &&\
 minikube dashboard --port='80' &&\
 nohup kubectl proxy --address='0.0.0.0' --port=80 --disable-filter=true &
 ```
