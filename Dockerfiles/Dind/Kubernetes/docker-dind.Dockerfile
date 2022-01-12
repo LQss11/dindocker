@@ -5,10 +5,13 @@
 # Pull base image.
 FROM docker:dind
 
+# Set User that will start minikube
+ARG USERNAME="lqss"
+
 # Install initials
 RUN \
   apk update && \
-  apk add curl wget nmap net-tools iputils sshpass bash
+  apk add curl wget nmap net-tools iputils sshpass bash sudo
 
 # Setup SSH Service
 RUN \
@@ -38,5 +41,12 @@ RUN echo 'root:root' | chpasswd
 # Allowing root login with ssh
 RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
-# Start SSH Service & Run the entrypoint script
-CMD [ "sh", "-c", "service sshd restart &&  dockerd-entrypoint.sh && bash" ]
+
+# Create new user for minikube start
+RUN adduser -D -s /bin/bash ${USERNAME} && \
+yes ${USERNAME} | passwd ${USERNAME} && \
+echo "${USERNAME} ALL=(ALL:ALL) ALL" >>/etc/sudoers
+
+#CMD [ "sh", "-c", "service sshd restart &&  dockerd-entrypoint.sh && bash" ] nohup dockerd-entrypoint.sh &
+RUN nohup /sbin/init &
+ENTRYPOINT [ "dockerd-entrypoint.sh" ]

@@ -70,6 +70,6 @@ usermod -aG docker ${USERNAME} && \
 echo "${USERNAME} ALL=(ALL:ALL) ALL" >>/etc/sudoers
 
 
-# restart system with systemd as PID=1
+# start system with systemd as PID=1
 CMD ["/sbin/init"]
 
