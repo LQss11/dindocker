@@ -45,7 +45,9 @@ RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/
 # Create new user for minikube start
 RUN adduser -D -s /bin/bash ${USERNAME} && \
 yes ${USERNAME} | passwd ${USERNAME} && \
-echo "${USERNAME} ALL=(ALL:ALL) ALL" >>/etc/sudoers
+echo "${USERNAME} ALL=(ALL:ALL) ALL" >>/etc/sudoers && \
+addgroup docker && \
+addgroup lqss docker 
 
 #CMD [ "sh", "-c", "service sshd restart &&  dockerd-entrypoint.sh && bash" ] nohup dockerd-entrypoint.sh &
 RUN nohup /sbin/init &
