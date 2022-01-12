@@ -27,3 +27,13 @@ once everything is done you can visit this url on your host machine to see that 
 http://127.0.0.1:30080/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/#/workloads?namespace=default
 ```
 >As you can see we are going to visit port 30080 which we have already mapped to port 80 as you can refer to through our **docker-compose.yaml** file
+
+## FULL COMMAND
+```sh
+su - ${USERNAME} &&\
+sudo chown -R ${USERNAME} /home/${USERNAME}/.minikube; chmod -R u+wrx /home/${USERNAME}/.minikube &&\
+minikube delete
+minikube start
+minikube dashboard --port='80' &&\
+nohup kubectl proxy --address='0.0.0.0' --port=80 --disable-filter=true &
+```
