@@ -51,4 +51,5 @@ addgroup lqss docker
 
 #CMD [ "sh", "-c", "service sshd restart &&  dockerd-entrypoint.sh && bash" ] nohup dockerd-entrypoint.sh &
 RUN nohup /sbin/init &
+
 ENTRYPOINT [ "dockerd-entrypoint.sh" ]

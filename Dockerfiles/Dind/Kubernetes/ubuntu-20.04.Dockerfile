@@ -34,16 +34,20 @@ RUN \
   curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && \
   chmod +x /usr/local/bin/docker-compose
 
-# Install Setup Kubernetes (minikube + kubectl) 
+# Setup minikube 
 RUN \
 wget https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && \
 cp minikube-linux-amd64 /usr/local/bin/minikube && \
 chmod +x /usr/local/bin/minikube && \
-curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl && \ 
-chmod +x kubectl && \
-mv kubectl /usr/local/bin/ && \
-apt-get install -y conntrack
+rm minikube-linux-amd64
 
+# Setup kubeadm kubelet and kubectl 
+RUN \
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add && \
+sudo apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main" &&\
+apt install -y kubeadm kubelet kubectl &&\
+apt-get install -y conntrack
+#RUN sudo swapoff -a 
 
 
 USER root
@@ -65,11 +69,9 @@ RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/
 
 # Create new user for minikube start
 RUN \
-useradd -ms /bin/bash ${USERNAME} && \
-usermod -aG docker ${USERNAME} && \
+useradd -ms /bin/bash -g docker ${USERNAME} && \
 echo "${USERNAME} ALL=(ALL:ALL) ALL" >>/etc/sudoers
-
+RUN echo ${USERNAME}:${USERNAME} | chpasswd
 
 # start system with systemd as PID=1
-CMD ["/sbin/init"]
-
+CMD [ "/sbin/init" ]
