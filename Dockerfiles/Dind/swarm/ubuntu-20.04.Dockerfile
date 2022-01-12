@@ -21,7 +21,7 @@ RUN \
   add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable" &&\
   apt-cache policy docker-ce &&\
   apt-get install -y docker-ce
-  
+
 
 
 # install docker-compose
@@ -44,6 +44,5 @@ RUN echo 'root:root' | chpasswd
 # Allowing root login with ssh
 RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
-# Start SSH and Docker services then use bash
-# Define default command.
-CMD ["sh" , "-c", "service ssh restart && service docker start && bash"]
+
+CMD [ "/sbin/init" ]

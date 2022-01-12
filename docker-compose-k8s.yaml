@@ -7,6 +7,7 @@ networks:
 volumes:
   docker-storage:
   controller-docker:
+  minikube-preload:
 
 services:
   # This is a controller as DinD
@@ -19,8 +20,8 @@ services:
     volumes:
       - './src:/src'
       - 'controller-docker:/var/lib/docker'
+      - 'minikube-preload:/home/lqss/.minikube/cache/preloaded-tarball'
     ports:
-      - "39000:9000"
       - "30080-30090:80-90" # Specify port mapping range to map on the later from dind      
     #  - "80-90" # for dynamic port mapping
     privileged: true
