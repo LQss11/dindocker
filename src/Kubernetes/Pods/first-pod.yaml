@@ -5,5 +5,5 @@ metadata:
 spec:
   containers:
   - name: app
-    image: image:release0
+    image: image:release
 
