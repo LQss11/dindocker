@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: webapp
+  name: app
 spec:
   containers:
-  - name: webapp
-    image: richardchesterwood/k8s-fleetman-webapp-angular:release0
+  - name: app
+    image: image:release0
 
