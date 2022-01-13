@@ -35,7 +35,11 @@ su - ${USERNAME}
 USERNAME=lqss &&\
 sudo chown -R ${USERNAME} /home/${USERNAME}/.minikube; chmod -R u+wrx /home/${USERNAME}/.minikube &&\
 minikube delete &&\
-minikube start &&\
-nohup kubectl proxy --address='0.0.0.0' --port=81 --disable-filter=true & &&
+minikube start
+```
+```sh
+nohup kubectl proxy --address='0.0.0.0' --port=81 --disable-filter=true &
+```
+```sh
 nohup minikube dashboard --port='81' &
 ```

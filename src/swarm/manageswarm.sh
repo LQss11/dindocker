@@ -69,14 +69,11 @@ while read -p "Would you like to add or remove a machine from the swarm [a]dd/[r
         read machine_user
         echo "Enter the Username Password?"
         read machine_password
-
+        
         echo "Removing node from the swarm..."
         sshpass -p $machine_password ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $machine_user@$machine_ip docker swarm leave -f
-        #docker node rm -f $(ssh $machine_user@$machine_ip hostname) &>/dev/null
         docker node rm -f $(sshpass -p $machine_password ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $machine_user@$machine_ip hostname)
-
     else
-
         echo "Wrong input!"
     fi
 done
