@@ -31,7 +31,7 @@ kubectl get po # Same as kubectl get pods
 ```
 in case we want to execute a command inside a running pod
 ```sh
-kubectl exec -it app-name sh # Execute  command inside pod
+kubectl exec -it pod-name -- sh # Execute  command inside pod
 ```
 To know labels from pods
 ```sh
@@ -79,7 +79,9 @@ kubectl describe service service-name # Get service info
 >Notice! `type: ClusterIP` means that service can only be accissible by the clusteer (will not work on external webbrowser).
 >>good to be used as a microservice or private service.
 
->Notice! `type: NodePort` will in fact expose the port through the node and could be accessible from external nodes.
+>Notice! `type: NodePort` will make the service accessible from outside.
+
+>Notice! `type: ExternalName`  This service does traffic redirect to services outside of the cluster. As such the service is thus mapped to a DNS name that could be hosted out of your cluster. It is important to note that this does not use proxying.
 
 ## Ports
 when specifying to map a `nodePort` to the external devices keep in mind that it has to be `greater than 30000`

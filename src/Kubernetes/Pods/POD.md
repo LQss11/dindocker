@@ -14,7 +14,7 @@ kubectl get po # Same as kubectl get pods
 ```
 in case we want to execute a command inside a running pod
 ```sh
-kubectl exec -it app-name sh # Execute  command inside pod
+kubectl exec -it pod-name -- sh # Execute ommand inside pod
 ```
 To know labels from pods
 ```sh

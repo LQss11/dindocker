@@ -3,12 +3,12 @@ Once the containers starts all you need to do is:
 
 Login as the newly created user:
 ```sh
-su - ${USERNAME}
+su - new_user
 ```
 
 then to give it permissions so it wouldn't download minikube image each time:
 ```sh
-sudo chown -R ${USERNAME} /home/${USERNAME}/.minikube; chmod -R u+wrx /home/${USERNAME}/.minikube
+sudo chown -R ${USERNAME} /home/${USERNAME}/.minikube; chmod -R u+wrx /home/${USERNAME}/.minikube # Make sure to change ${USERNAME} with your username
 ```
 then run:
 ```sh
@@ -30,11 +30,8 @@ http://127.0.0.1:30080/api/v1/namespaces/kubernetes-dashboard/services/http:kube
 
 ## FULL COMMAND
 ```sh
-USERNAME=user
+USERNAME=new_user # The user you selected through .env file
 su - ${USERNAME}
-USERNAME=lqss &&\
-sudo chown -R ${USERNAME} /home/${USERNAME}/.minikube; chmod -R u+wrx /home/${USERNAME}/.minikube &&\
-minikube delete &&\
 minikube start
 ```
 ```sh
@@ -43,3 +40,24 @@ nohup kubectl proxy --address='0.0.0.0' --port=81 --disable-filter=true &
 ```sh
 nohup minikube dashboard --port='81' &
 ```
+### Additional info
+In case you don't want to download the **preloaded-images-k8s** you will need to:
+- add this `'minikube-preload:/home/lqss/.minikube/cache/preloaded-tarball'` in the container volumes definition section in docker-compose and don't forget to initialize the **minikubue-preload** volume.
+-  run the following command after logging with the new user to give him access to that directory:
+```sh
+USERNAME=new_user
+sudo chown -R ${USERNAME} /home/${USERNAME}/.minikube; chmod -R u+wrx /home/${USERNAME}/.minikube
+```
+then start minikube again
+```sh
+minikube delete &&\
+minikube start
+```
+### Port forwarding
+In case you want to see the output in your browser (outside the kubernetes container), you will need to follow these steps:
+1. Run your service with a specific **port** (eg. 82)
+2. Once the service running and pod created run this command:
+```sh
+kubectl port-forward svc/service-name <localhost_port>:<specified_port> 
+```
+>Again make sure to check the port mapping specified for host docker container.

@@ -12,8 +12,8 @@ services:
   # This is a controller as DinD
   controller:
     build:
-      context: ./Dockerfiles/Dind/${DIND_SERVICES}
-      dockerfile: ${DOCKERFILE}.Dockerfile
+      context: .
+      dockerfile: ./Dockerfiles/Dind/${DIND_SERVICES}/${DOCKERFILE}.Dockerfile
     image: dindocker_${DOCKERFILE}_${DIND_SERVICES}
     restart: always
     volumes:
@@ -31,8 +31,8 @@ services:
   # DinD Container Configuration
   agent:
     build:
-      context: ./Dockerfiles/Dind/${DIND_SERVICES}
-      dockerfile: ${DOCKERFILE}.Dockerfile
+      context: .
+      dockerfile: ./Dockerfiles/Dind/${DIND_SERVICES}/${DOCKERFILE}.Dockerfile
     image: dindocker_${DOCKERFILE}_${DIND_SERVICES}
     restart: always
     volumes:
