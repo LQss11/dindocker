@@ -59,6 +59,10 @@ To get all but in different namespaces we can simply specify the name space and 
 ```sh
 kubectl get po -n namespace # Get all pods in that namespace
 ```
+you can also get all kubernetes resources by running
+```sh
+kubectl get pods --all-namespaces # Get all res in all namespaces
+```
 So as you can see the `-n` flag is always valid whenever we want to describe create or get information about any other ressource.
 ## Services
 We need services to allow us access pods from other machine and make sre pods are always runnning.
