@@ -20,8 +20,7 @@ services:
       - './src:/src'
       - 'controller-docker:/var/lib/docker'
     ports:
-      - "39000:9000"
-      - "30080-30090:80-90" # Specify port mapping range to map on the later from dind      
+      - "30080-30090:80-90" # Specify port mapping range to map on later from dind      
     #  - "80-90" # for dynamic port mapping
     privileged: true
     tty: true

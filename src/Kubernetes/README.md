@@ -1,14 +1,14 @@
 ## Setup minikube
 Once the containers starts all you need to do is:
 
-Login as the newly created user:
+Login as the newly created user (user:minikube | pass:minikube):
 ```sh
-su - new_user
+su - minikube
 ```
 
 then to give it permissions so it wouldn't download minikube image each time:
 ```sh
-sudo chown -R ${USERNAME} /home/${USERNAME}/.minikube; chmod -R u+wrx /home/${USERNAME}/.minikube # Make sure to change ${USERNAME} with your username
+sudo chown -R minikube /home/minikube/.minikube; chmod -R u+wrx /home/minikube/.minikube
 ```
 then run:
 ```sh
@@ -30,8 +30,7 @@ http://127.0.0.1:30080/api/v1/namespaces/kubernetes-dashboard/services/http:kube
 
 ## FULL COMMAND
 ```sh
-USERNAME=new_user # The user you selected through .env file
-su - ${USERNAME}
+su - minikube
 minikube start
 ```
 ```sh
@@ -43,10 +42,9 @@ nohup minikube dashboard --port='81' &
 ### Additional info
 In case you don't want to download the **preloaded-images-k8s** you will need to:
 - add this `'minikube-preload:/home/lqss/.minikube/cache/preloaded-tarball'` in the container volumes definition section in docker-compose and don't forget to initialize the **minikubue-preload** volume.
--  run the following command after logging with the new user to give him access to that directory:
+-  run the following command after logging with the minikube user to give him access to that directory:
 ```sh
-USERNAME=new_user
-sudo chown -R ${USERNAME} /home/${USERNAME}/.minikube; chmod -R u+wrx /home/${USERNAME}/.minikube
+sudo chown -R minikube /home/minikube/.minikube; chmod -R u+wrx /home/minikube/.minikube
 ```
 then start minikube again
 ```sh

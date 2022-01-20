@@ -5,8 +5,8 @@
 # Pull base image.
 FROM docker:dind
 
-# Set User that will start minikube
-ARG USERNAME="lqss"
+# User that will start minikube
+ARG USERNAME=minikube
 
 # Install initials
 RUN \
@@ -47,9 +47,16 @@ RUN adduser -D -s /bin/bash ${USERNAME} && \
 yes ${USERNAME} | passwd ${USERNAME} && \
 echo "${USERNAME} ALL=(ALL:ALL) ALL" >>/etc/sudoers && \
 addgroup docker && \
-addgroup lqss docker 
+addgroup ${USERNAME} docker 
 
-#CMD [ "sh", "-c", "service sshd restart &&  dockerd-entrypoint.sh && bash" ] nohup dockerd-entrypoint.sh &
+# Systemd PID 1
 RUN nohup /sbin/init &
+#ENTRYPOINT [ "dockerd-entrypoint.sh" ]
+#USER minikube
+#CMD [ "sh", "-c", "echo minikube | sudo -S dockerd-entrypoint.sh  && bash " ]
+#ENTRYPOINT [ "echo minikube | sudo -S -u minikube -c whoami" ]
+#ENTRYPOINT [ "dockerd-entrypoint.sh" ]
+CMD [ "sh", "-c", "service sshd restart &&  dockerd-entrypoint.sh && bash" ]
 
-ENTRYPOINT [ "dockerd-entrypoint.sh" ]
+#CMD [ "sh", "-c", "su - minikube ; minikube start && dockerd-entrypoint.sh && bash " ]
+

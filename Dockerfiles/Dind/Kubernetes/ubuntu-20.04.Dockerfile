@@ -11,7 +11,7 @@ FROM ubuntu:20.04
 ARG DEBIAN_FRONTEND=noninteractive
 
 # Set User that will start minikube
-ARG USERNAME="lqss"
+ARG USERNAME=minikube
 
 # Install initials
 RUN \
