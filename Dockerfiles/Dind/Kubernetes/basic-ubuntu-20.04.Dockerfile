@@ -41,15 +41,12 @@ cp minikube-linux-amd64 /usr/local/bin/minikube && \
 chmod +x /usr/local/bin/minikube && \
 rm minikube-linux-amd64
 
-# Setup kubernetes/kubeadm/kubelet 
+# Setup kubeadm kubelet and kubectl 
 RUN \
-apt-get update && apt-get install -y apt-transport-https &&\
-curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - &&\
-# Add Kubernetes entry list
-echo 'deb http://apt.kubernetes.io/ kubernetes-xenial main' > /etc/apt/sources.list.d/kubernetes.list &&\
-apt-get update &&\
-apt-get install -y kubelet=1.22.0-00 kubeadm=1.22.0-00 kubectl=1.22.0-00
-
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add && \
+sudo apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main" &&\
+apt install -y kubeadm kubelet kubectl &&\
+apt-get install -y conntrack
 #RUN sudo swapoff -a 
 
 
