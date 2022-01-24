@@ -20,18 +20,15 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: fleetman-queue
-
+  name: my-service
 spec:
-  # This defines which pods are going to be represented by this Service
-  # The service becomes a network endpoint for either other services
-  # or maybe external users to connect to (eg browser)
   selector:
-    app: queue
-
+    app: nginx1.14.2 # Label Selector
   ports:
     - name: http
-      port: 8161
-      nodePort: 30010
-
+      port: 80
+      nodePort: 30080
   type: NodePort
+
+
+# You can start this file with apply -f /src/kubernetes/Services/nginx-replicaset.yaml

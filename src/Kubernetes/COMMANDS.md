@@ -10,6 +10,10 @@ To run multiple `.yaml` files you can run:
 kubectl apply -f . # Will run all yaml files in current dir
 kubectl apply -f file1.yaml -f file2.yaml # We can specify multiple yaml files as well
 ```
+To delete resources created from a file run:
+```sh
+kubectl delete -f file1.yaml # Will remove all resources specified in file
+```
 to get the minikube ip address:
 ```sh
 minikube ip # Get minikube address
@@ -80,8 +84,8 @@ kubectl describe service service-name # Get service info
 
 >Notice! `type: LoadBalancer` might not be available and only supported by some cloud services
 
->Notice! `type: ClusterIP` means that service can only be accissible by the clusteer (will not work on external webbrowser).
->>good to be used as a microservice or private service.
+>Notice! `type: ClusterIP` means that service can only be accissible by the clusteer (will not work on external webrowser).
+>>good to be used as a microservice or private service (eg. mongodb).
 
 >Notice! `type: NodePort` will make the service accessible from outside.
 
