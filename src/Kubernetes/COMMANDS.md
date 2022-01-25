@@ -134,6 +134,7 @@ This could be an example scenario where you could get an idea about what deploye
 
 As you can see this will allow us to have 0 downtime and make it convenient to use deployement rather than just simply replicasets, especially when it comes to updating a running application...
 
+### Deployment Management
 Once you run the apply command to update to a newer version, in case there were some errors you can roll back running:
 ```sh
 kubectl rollout status deployement deploy-name # Rollback deployement
