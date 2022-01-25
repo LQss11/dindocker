@@ -32,4 +32,4 @@ spec:
   type: NodePort
 
 
-# You can start this file with apply -f /src/kubernetes/ReplicaSets/nginx-replicaset.yaml
+# You can start this file with apply -f /src/kubernetes/Services/nginx-replicaset.yaml
