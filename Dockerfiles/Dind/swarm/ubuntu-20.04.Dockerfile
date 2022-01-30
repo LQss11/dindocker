@@ -44,5 +44,8 @@ RUN echo 'root:root' | chpasswd
 # Allowing root login with ssh
 RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
+# Remove Cache
+RUN rm -rf /var/cache/apt/*
+
 # Systemd PID 1
 CMD [ "/sbin/init" ]

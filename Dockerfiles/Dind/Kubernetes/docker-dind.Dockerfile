@@ -49,14 +49,9 @@ echo "${USERNAME} ALL=(ALL:ALL) ALL" >>/etc/sudoers && \
 addgroup docker && \
 addgroup ${USERNAME} docker 
 
+# Remove Cache
+RUN rm -rf /var/cache/apk/*
+
 # Systemd PID 1
 RUN nohup /sbin/init &
-#ENTRYPOINT [ "dockerd-entrypoint.sh" ]
-#USER minikube
-#CMD [ "sh", "-c", "echo minikube | sudo -S dockerd-entrypoint.sh  && bash " ]
-#ENTRYPOINT [ "echo minikube | sudo -S -u minikube -c whoami" ]
-#ENTRYPOINT [ "dockerd-entrypoint.sh" ]
 CMD [ "sh", "-c", "service sshd restart &&  dockerd-entrypoint.sh && bash" ]
-
-#CMD [ "sh", "-c", "su - minikube ; minikube start && dockerd-entrypoint.sh && bash " ]
-

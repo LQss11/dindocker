@@ -44,6 +44,9 @@ RUN echo 'root:root' | chpasswd
 # Allowing root login with ssh
 RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
+# Remove Cache
+RUN rm -rf /var/cache/apt/*
+
 # Start SSH  service then use bash
 # Define default command.
 CMD ["sh" , "-c", "service ssh restart && service docker start && bash"]

@@ -33,5 +33,8 @@ RUN echo 'root:root' | chpasswd
 # Allowing root login with ssh
 RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
+# Remove Cache
+RUN rm -rf /var/cache/apk/*
+
 # Start SSH Service & Run the entrypoint script
 CMD [ "sh", "-c", "service sshd restart &&  dockerd-entrypoint.sh && bash" ]

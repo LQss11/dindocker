@@ -76,5 +76,8 @@ useradd -ms /bin/bash -g docker ${USERNAME} && \
 echo "${USERNAME} ALL=(ALL:ALL) ALL" >>/etc/sudoers
 RUN echo ${USERNAME}:${USERNAME} | chpasswd
 
+# Remove Cache
+RUN rm -rf /var/cache/apt/*
+
 # start system with systemd as PID=1
 CMD [ "/sbin/init" ]
