@@ -19,10 +19,15 @@ spec:
       volumeMounts:
       - mountPath: /git
         name: git
+      - mountPath: /test
+        name: test          
     volumes:
-    - name: git
+    - name: git # clone git repo (Depricated 1.11)
       gitRepo:
-        repository: https://github.com/LQss11/dindocker.git  
+        repository: https://github.com/LQss11/dindocker.git 
+    - name: test
+      hostPath:
+        path: /c/Users/username/.../nginxk8s/ok #Replace user and path         
 ---
 apiVersion: v1
 kind: Service
