@@ -54,7 +54,7 @@ apt-get install -y kubelet=1.22.5-00 kubeadm=1.22.5-00 kubectl=1.22.5-00
 #RUN sudo usermod -aG docker $USER
 #RUN sudo swapoff -a 
 #RUN sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab 
-
+#RUN sudo systemctl restart kubelet
 
 USER root
 
