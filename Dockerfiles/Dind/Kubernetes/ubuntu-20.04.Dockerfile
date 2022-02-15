@@ -55,6 +55,20 @@ apt-get install -y kubelet=1.22.5-00 kubeadm=1.22.5-00 kubectl=1.22.5-00
 #RUN sudo swapoff -a 
 #RUN sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab 
 #RUN sudo systemctl restart kubelet
+# Set SELinux in permissive mode (effectively disabling it)
+#RUN sudo setenforce 0
+#RUN sudo sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
+# RUN \
+  # mkdir -p $HOME/.kube && \
+  # sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config && \
+  # sudo chown $(id -u):$(id -g) $HOME/.kube/config
+#RUN kubeadm join 172.24.222.59:6443 --token fv5jwm.317ou7qrmbkrx1y7 \
+#        --discovery-token-ca-cert-hash sha256:d2b8e52cec287d0e0e3ab7ff038f970530a88e4415cd42c93cb5644bf5127a67
+# RUN kubeadm token create --print-join-command 
+
+# When setting up if some issue encountered  when running kubeadm init
+# you can run kubeadm reset 
+# then you might want to try this https://stackoverflow.com/questions/52119985/kubeadm-init-shows-kubelet-isnt-running-or-healthy
 
 USER root
 
