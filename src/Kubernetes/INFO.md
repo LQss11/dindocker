@@ -25,4 +25,11 @@ export KUBECONFIG=/etc/kubernetes/admin.conf
 sudo kubectl get node
 ```
 
-
+## Set up non root user cluster access
+In order to do that we will first need to generate ~/.kube dir then copy the config file there and finally give config dile ownership to that user
+```sh
+mkdir ~/.kube
+sudo cp -i /etc/kubernetes/admin.conf ~/.kube/conf
+sudo chown $(id -u):$(id -g) ~/.kube/conf
+kubectl get node
+```
