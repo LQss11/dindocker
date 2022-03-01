@@ -12,3 +12,17 @@ In a master node we can find all these:
 
 with multiple master nodes **API server** is load balanced and **etcd** storage is distributed
 
+Once the cluster setup and ready all configs and certs are located in `/etc/kubernetes`.
+
+Running `kubectl get node` will not give you the current nodes used in the cluster so in order to do that we will need to be authenticated through a cert or token which is located in the `/etc/kubernetes/admin.conf` which is the cluster config.
+
+```sh
+sudo kubectl get node --kubeconfig /etc/kubernetes/admin.conf
+```
+or you can simply setup the conf param once without having to specify it each time
+```sh
+export KUBECONFIG=/etc/kubernetes/admin.conf
+sudo kubectl get node
+```
+
+
